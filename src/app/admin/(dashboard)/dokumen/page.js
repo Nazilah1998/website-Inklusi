@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Loader2, X, CheckCircle, Download, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import ModernDatepicker from '@/components/admin/ModernDatepicker';
+import ModernSelect from '@/components/admin/ModernSelect';
 
 const EMPTY_FORM = { judul: '', jenis: 'PDF', url_file: '', tanggal: '', status: 'Aktif' };
 
@@ -119,29 +121,37 @@ export default function DokumenAdmin() {
                 <input name="url_file" value={form.url_file} onChange={handleChange} placeholder="https://drive.google.com/..." />
               </div>
               <div className="form-row">
-                <div className="form-group">
-                  <label>Jenis File</label>
-                  <select name="jenis" value={form.jenis} onChange={handleChange}>
-                    <option value="PDF">PDF</option>
-                    <option value="DOCX">DOCX</option>
-                    <option value="XLSX">XLSX</option>
-                    <option value="PPTX">PPTX</option>
-                    <option value="ZIP">ZIP</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Tanggal Upload</label>
-                  <input type="date" name="tanggal" value={form.tanggal} onChange={handleChange} />
-                </div>
+                <ModernSelect
+                  name="jenis"
+                  value={form.jenis}
+                  onChange={handleChange}
+                  label="Jenis File"
+                  options={[
+                    { value: 'PDF', label: 'PDF' },
+                    { value: 'DOCX', label: 'DOCX' },
+                    { value: 'XLSX', label: 'XLSX' },
+                    { value: 'PPTX', label: 'PPTX' },
+                    { value: 'ZIP', label: 'ZIP' }
+                  ]}
+                />
+                <ModernDatepicker
+                  name="tanggal"
+                  value={form.tanggal}
+                  onChange={handleChange}
+                  label="Tanggal Upload"
+                />
               </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select name="status" value={form.status} onChange={handleChange}>
-                  <option value="Aktif">Aktif</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Arsip">Arsip</option>
-                </select>
-              </div>
+              <ModernSelect
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                label="Status"
+                options={[
+                  { value: 'Aktif', label: 'Aktif' },
+                  { value: 'Draft', label: 'Draft' },
+                  { value: 'Arsip', label: 'Arsip' }
+                ]}
+              />
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Batal</button>
                 <button type="submit" className="btn-primary" disabled={saving}>

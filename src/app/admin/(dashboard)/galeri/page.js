@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Loader2, X, CheckCircle, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import ModernDatepicker from '@/components/admin/ModernDatepicker';
+import ModernSelect from '@/components/admin/ModernSelect';
 
 const EMPTY_FORM = { judul: '', url_file: '', tipe_file: 'foto', tanggal: '', status: 'Aktif' };
 
@@ -123,26 +125,34 @@ export default function GaleriAdmin() {
                 )}
               </div>
               <div className="form-row">
-                <div className="form-group">
-                  <label>Tipe</label>
-                  <select name="tipe_file" value={form.tipe_file} onChange={handleChange}>
-                    <option value="foto">Foto</option>
-                    <option value="video">Video</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Tanggal</label>
-                  <input type="date" name="tanggal" value={form.tanggal} onChange={handleChange} />
-                </div>
+                <ModernSelect
+                  name="tipe_file"
+                  value={form.tipe_file}
+                  onChange={handleChange}
+                  label="Tipe"
+                  options={[
+                    { value: 'foto', label: 'Foto' },
+                    { value: 'video', label: 'Video' }
+                  ]}
+                />
+                <ModernDatepicker
+                  name="tanggal"
+                  value={form.tanggal}
+                  onChange={handleChange}
+                  label="Tanggal"
+                />
               </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select name="status" value={form.status} onChange={handleChange}>
-                  <option value="Aktif">Aktif</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Arsip">Arsip</option>
-                </select>
-              </div>
+              <ModernSelect
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                label="Status"
+                options={[
+                  { value: 'Aktif', label: 'Aktif' },
+                  { value: 'Draft', label: 'Draft' },
+                  { value: 'Arsip', label: 'Arsip' }
+                ]}
+              />
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Batal</button>
                 <button type="submit" className="btn-primary" disabled={saving}>

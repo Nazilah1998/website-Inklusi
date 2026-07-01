@@ -1,11 +1,15 @@
 'use client'
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, FileText, Bell, Calendar, Image as ImageIcon, BookOpen, LogOut } from 'lucide-react';
+import { Home, FileText, Bell, Calendar, Image as ImageIcon, BookOpen, LogOut, Menu, X } from 'lucide-react';
 import { logoutAction } from '@/app/admin/actions';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
   
   const menuItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: Home },
@@ -17,15 +21,28 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="admin-sidebar">
-      <div className="sidebar-brand">
-        <h2>Panel Admin</h2>
+    <>
+      <div className="admin-mobile-header">
+        <button className="admin-mobile-menu-btn" onClick={toggleMenu}>
+          <Menu size={24} />
+        </button>
+        <span className="admin-mobile-header-title">Panel Admin</span>
       </div>
+
+      <div className={`admin-mobile-backdrop ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)}></div>
+
+      <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
+        <div className="sidebar-brand">
+          <h2>Panel Admin</h2>
+          <button className="admin-mobile-close-btn" onClick={() => setIsOpen(false)}>
+            <X size={24} />
+          </button>
+        </div>
       <nav className="sidebar-nav">
         <ul>
           {menuItems.map((item) => (
             <li key={item.path}>
-              <Link href={item.path} className={pathname === item.path ? 'active' : ''}>
+              <Link href={item.path} className={pathname === item.path ? 'active' : ''} onClick={() => setIsOpen(false)}>
                 <item.icon size={20} />
                 <span>{item.name}</span>
               </Link>
@@ -41,6 +58,7 @@ export default function Sidebar() {
           </button>
         </form>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

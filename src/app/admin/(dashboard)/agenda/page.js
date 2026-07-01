@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Loader2, X, CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import ModernDatepicker from '@/components/admin/ModernDatepicker';
+import ModernSelect from '@/components/admin/ModernSelect';
 
 const EMPTY_FORM = { acara: '', deskripsi: '', waktu: '', lokasi: '', status: 'Mendatang' };
 
@@ -113,19 +115,25 @@ export default function AgendaAdmin() {
                 <textarea name="deskripsi" value={form.deskripsi} onChange={handleChange} rows={3} placeholder="Deskripsi singkat agenda..." />
               </div>
               <div className="form-row">
-                <div className="form-group">
-                  <label>Waktu Pelaksanaan</label>
-                  <input type="datetime-local" name="waktu" value={form.waktu} onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                  <label>Status</label>
-                  <select name="status" value={form.status} onChange={handleChange}>
-                    <option value="Mendatang">Mendatang</option>
-                    <option value="Berlangsung">Berlangsung</option>
-                    <option value="Selesai">Selesai</option>
-                    <option value="Dibatalkan">Dibatalkan</option>
-                  </select>
-                </div>
+                <ModernDatepicker
+                  name="waktu"
+                  value={form.waktu}
+                  onChange={handleChange}
+                  label="Waktu Pelaksanaan"
+                  type="datetime-local"
+                />
+                <ModernSelect
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  label="Status"
+                  options={[
+                    { value: 'Mendatang', label: 'Mendatang' },
+                    { value: 'Berlangsung', label: 'Berlangsung' },
+                    { value: 'Selesai', label: 'Selesai' },
+                    { value: 'Dibatalkan', label: 'Dibatalkan' }
+                  ]}
+                />
               </div>
               <div className="form-group">
                 <label>Lokasi</label>

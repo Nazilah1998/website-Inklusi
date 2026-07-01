@@ -1,4 +1,8 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
+import AccessibilityProvider from "@/components/layout/AccessibilityProvider";
+import AccessibilityWidget from "@/components/layout/AccessibilityWidget";
+import LiveChatWidget from "@/components/layout/LiveChatWidget";
+import Chatbot from "@/components/ui/Chatbot";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -14,7 +18,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${plusJakartaSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AccessibilityProvider>
+          {children}
+          <AccessibilityWidget />
+          <LiveChatWidget />
+          <Chatbot />
+        </AccessibilityProvider>
+      </body>
     </html>
   );
 }

@@ -3,6 +3,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import BeritaContent from './BeritaContent';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -54,9 +55,7 @@ export default async function DetailBeritaPage({ params }) {
             </div>
           )}
           
-          <div style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: '1.8', whiteSpace: 'pre-wrap' }}>
-            {berita.konten}
-          </div>
+          <BeritaContent kontenAsli={berita.konten} />
         </article>
       </div>
       <Footer />

@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Loader2, X, CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import ModernDatepicker from '@/components/admin/ModernDatepicker';
+import ModernSelect from '@/components/admin/ModernSelect';
 
 const EMPTY_FORM = { judul: '', konten: '', tanggal: '', status: 'Aktif' };
 
@@ -106,18 +108,23 @@ export default function PengumumanAdmin() {
                 <textarea name="konten" value={form.konten} onChange={handleChange} rows={5} placeholder="Tulis isi pengumuman..." />
               </div>
               <div className="form-row">
-                <div className="form-group">
-                  <label>Tanggal</label>
-                  <input type="date" name="tanggal" value={form.tanggal} onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                  <label>Status</label>
-                  <select name="status" value={form.status} onChange={handleChange}>
-                    <option value="Aktif">Aktif</option>
-                    <option value="Draft">Draft</option>
-                    <option value="Arsip">Arsip</option>
-                  </select>
-                </div>
+                <ModernDatepicker
+                  name="tanggal"
+                  value={form.tanggal}
+                  onChange={handleChange}
+                  label="Tanggal"
+                />
+                <ModernSelect
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  label="Status"
+                  options={[
+                    { value: 'Aktif', label: 'Aktif' },
+                    { value: 'Draft', label: 'Draft' },
+                    { value: 'Arsip', label: 'Arsip' }
+                  ]}
+                />
               </div>
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Batal</button>

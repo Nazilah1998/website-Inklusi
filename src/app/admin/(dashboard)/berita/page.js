@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Loader2, X, Image as ImageIcon, CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import DragDropImage from '@/components/admin/DragDropImage';
+import ModernDatepicker from '@/components/admin/ModernDatepicker';
+import ModernSelect from '@/components/admin/ModernSelect';
 
 const EMPTY_FORM = { judul: '', slug: '', konten: '', thumbnail: '', tanggal: '', status: 'Aktif' };
 
@@ -159,29 +162,32 @@ export default function BeritaAdmin() {
                 <input name="slug" value={form.slug} onChange={handleChange} placeholder="slug-otomatis" />
               </div>
               <div className="form-group">
-                <label>URL Thumbnail / Cover Gambar</label>
-                <input name="thumbnail" value={form.thumbnail} onChange={handleChange} placeholder="https://..." />
-                {form.thumbnail && (
-                  <img src={form.thumbnail} alt="preview" style={{ marginTop: '0.5rem', width: '100%', maxHeight: '160px', objectFit: 'cover', borderRadius: '8px' }} onError={e => e.target.style.display='none'} />
-                )}
-              </div>
-              <div className="form-group">
                 <label>Konten / Isi Berita</label>
                 <textarea name="konten" value={form.konten} onChange={handleChange} rows={5} placeholder="Tulis isi berita di sini..." />
               </div>
+              <DragDropImage 
+                value={form.thumbnail} 
+                onChange={(val) => setForm({ ...form, thumbnail: val })} 
+                label="Thumbnail / Cover Gambar (Opsional)" 
+              />
               <div className="form-row">
-                <div className="form-group">
-                  <label>Tanggal</label>
-                  <input type="date" name="tanggal" value={form.tanggal} onChange={handleChange} />
-                </div>
-                <div className="form-group">
-                  <label>Status</label>
-                  <select name="status" value={form.status} onChange={handleChange}>
-                    <option value="Aktif">Aktif</option>
-                    <option value="Draft">Draft</option>
-                    <option value="Arsip">Arsip</option>
-                  </select>
-                </div>
+                <ModernDatepicker
+                  name="tanggal"
+                  value={form.tanggal}
+                  onChange={handleChange}
+                  label="Tanggal"
+                />
+                <ModernSelect
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  label="Status"
+                  options={[
+                    { value: 'Aktif', label: 'Aktif' },
+                    { value: 'Draft', label: 'Draft' },
+                    { value: 'Arsip', label: 'Arsip' }
+                  ]}
+                />
               </div>
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Batal</button>
